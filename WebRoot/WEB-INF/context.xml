@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE xml>  
+<Context>  
+    <Resource name="jdbc/emsdatasource"   
+        auth="Container"   
+        type="javax.sql.DataSource" 
+        factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"    
+        maxActive="100"  
+        maxIdle="2"  
+        maxWait="300000"  
+        username="test" 
+        password="root" 
+        driverClassName="oracle.jdbc.OracleDriver"  
+        url="jdbc:oracle:thin:@2.1.1.1:1521:ora10g" />   
+</Context>
