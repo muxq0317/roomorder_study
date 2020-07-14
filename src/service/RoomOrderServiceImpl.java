@@ -16,4 +16,10 @@ public class RoomOrderServiceImpl implements RoomOrderService{
         return roomorders;
 	}
 
+	@Override
+	public void insertAll(RoomOrder r) {
+		roomorderDao.insertAll(r);
+		
+	}
+
 }

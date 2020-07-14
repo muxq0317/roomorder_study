@@ -3,7 +3,6 @@ package study;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import service.EmployeeService;
+import service.EmployeeServiceImpl;
 import service.RoomOrderService;
 import service.RoomOrderServiceImpl;
 import service.RoomService;
@@ -35,7 +34,7 @@ public class ConfirmServlet extends HttpServlet {
 		req.setCharacterEncoding("utf-8");
 		
 //		List<People> list = (List<People>) req.getSession().getAttribute("list"); 
-		
+		RoomOrder ro= new RoomOrder();
 		String name = req.getParameter("name");
         String number = req.getParameter("number");
         String meetingroom = req.getParameter("meetingroom");
@@ -69,13 +68,23 @@ public class ConfirmServlet extends HttpServlet {
         }
 		
 		RoomService roomService=new RoomServiceImpl();
-		Room room = roomService.findIdByroomnm(number);
+		Room room = roomService.findIdByroomnm(meetingroom);
+		
+		EmployeeService employeeService = new EmployeeServiceImpl();
+		Employee employee = employeeService.findIdByempnumber(number);
+		
+		ro.setRoomid(room.getRoomid().toString());
+		ro.setEmpid(employee.getEmpid().toString());
+		ro.setOrderdate(orderdate);
+		ro.setStarttime(Integer.valueOf(starttimeint));
+		ro.setEndtime(Integer.valueOf(endtimeint));
 		
 		RoomOrderService roomorderservice = new RoomOrderServiceImpl();
 		List<RoomOrder> list= roomorderservice.findALL(room.getRoomid().toString(), orderdate);
 		int key = 1;
 		if(list==null) {
-			//TODO 登录数据库操作
+			// 登录数据库操作
+			roomorderservice.insertAll(ro);
 			req.getRequestDispatcher("/success.jsp").forward(req,resp);
 		}else {
 			for(RoomOrder t:list) {

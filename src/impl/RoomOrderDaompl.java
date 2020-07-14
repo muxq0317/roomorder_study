@@ -3,6 +3,7 @@ package impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,30 @@ public class RoomOrderDaompl implements RoomOrderDao{
             DButil.closeAll(resultSet,statement,connection);
         }
 		return roomorders;
+	}
+	
+	public void insertAll(RoomOrder r) {
+
+        Connection connection=null;
+        PreparedStatement statement=null;
+        
+            connection= DButil.getConnection();
+            String sql="INSERT INTO room_order(room_id, emp_id, order_date, start_time, end_time)"
+                    +"values("+"?,?,?,?,?)";
+            try {
+				statement=connection.prepareStatement(sql);
+				statement.setString(1,r.getRoomid());
+	            statement.setString(2,r.getEmpid());
+	            statement.setString(3, r.getOrderdate());
+	            statement.setInt(4, r.getStarttime());
+	            statement.setInt(5,r.getEndtime());
+	            
+	            statement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+            
+	
 	}
 
 }

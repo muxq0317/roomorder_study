@@ -6,5 +6,6 @@ import study.RoomOrder;
 
 public interface RoomOrderDao {
 	List<RoomOrder> findAll(String roomid,String orderdate);
+	void insertAll(RoomOrder r);
 
 }
